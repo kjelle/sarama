@@ -415,10 +415,6 @@ func (om *offsetManager) newBrokerOffsetManager(broker *Broker) *brokerOffsetMan
 		subscriptions:       make(map[*partitionOffsetManager]none),
 	}
 
-	if om.conf.Consumer.Offsets.Enable == false {
-		bom.timer.Stop()
-	}
-
 	go withRecover(bom.mainLoop)
 
 	return bom
@@ -446,6 +442,10 @@ func (bom *brokerOffsetManager) mainLoop() {
 }
 
 func (bom *brokerOffsetManager) flushToBroker() {
+	if om.conf.Consumer.Offsets.Enable == false {
+		return
+	}
+
 	request := bom.constructRequest()
 	if request == nil {
 		return
