@@ -442,7 +442,7 @@ func (bom *brokerOffsetManager) mainLoop() {
 }
 
 func (bom *brokerOffsetManager) flushToBroker() {
-	if om.conf.Consumer.Offsets.Enable == false {
+	if bom.conf.Consumer.Offsets.Enable == false {
 		return
 	}
 
