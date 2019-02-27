@@ -98,6 +98,10 @@ func (om *offsetManager) ManagePartition(topic string, partition int32) (Partiti
 }
 
 func (om *offsetManager) Close() error {
+	if !om.conf.Consumer.Offsets.Enable {
+		return nil
+	}
+
 	om.closeOnce.Do(func() {
 		// exit the mainLoop
 		close(om.closing)
