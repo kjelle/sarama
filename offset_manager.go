@@ -240,6 +240,10 @@ func (om *offsetManager) mainLoop() {
 }
 
 func (om *offsetManager) flushToBroker() {
+	if om.conf.Consumer.Offsets.Enable == false {
+		return
+	}
+
 	req := om.constructRequest()
 	if req == nil {
 		return
